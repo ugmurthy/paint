@@ -1,0 +1,332 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.App-header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.action-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 5px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.action-button:hover {
+  transform: scale(1.1);
+}
+
+.action-label {
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.new-button {
+  background-color: #2196F3;
+}
+
+.new-button:hover {
+  background-color: #1976D2;
+}
+
+.save-button {
+  background-color: #FF9800;
+}
+
+.save-button:hover {
+  background-color: #F57C00;
+}
+
+.App-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #E0F7FA;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.canvas-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F5F5F5;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .App-main {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+  
+  .canvas-container {
+    height: 70vh;
+  }
+}
+
+/* Section titles */
+.section-title {
+  font-size: 1.5rem;
+  margin: 15px 0 10px;
+  color: #0288D1;
+  text-align: center;
+}
+
+/* Toolbar Component Styles */
+.toolbar {
+  margin-bottom: 20px;
+}
+
+.tools-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tool-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-color: #BBDEFB;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 5px;
+}
+
+.tool-button:hover {
+  transform: scale(1.1);
+  background-color: #90CAF9;
+}
+
+.tool-button.selected {
+  border-color: #2196F3;
+  background-color: #64B5F6;
+}
+
+.tool-button img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.tool-label {
+  font-size: 10px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* ColorPicker Component Styles */
+.color-picker {
+  margin-bottom: 20px;
+}
+
+.colors-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.color-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.color-button:hover {
+  transform: scale(1.2);
+}
+
+.color-button.selected {
+  border-color: #333;
+  transform: scale(1.2);
+}
+
+.custom-color-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
+  border: 3px solid transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.custom-color-button:hover {
+  transform: scale(1.2);
+}
+
+.custom-color-picker {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.color-input {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* BackgroundSelector Component Styles */
+.background-selector {
+  margin-bottom: 20px;
+}
+
+.backgrounds-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.background-button {
+  width: 70px;
+  height: 50px;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  padding: 0;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-button:hover {
+  transform: scale(1.1);
+}
+
+.background-button.selected {
+  border-color: #2196F3;
+}
+
+.background-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* StickerPanel Component Styles */
+.sticker-panel {
+  margin-bottom: 20px;
+}
+
+.stickers-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.sticker-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  padding: 5px;
+  background-color: white;
+}
+
+.sticker-button:hover {
+  transform: scale(1.2);
+  border-color: #FF9800;
+  background-color: #FFF8E1;
+}
+
+.sticker-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Scrollbar styling */
+.stickers-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.stickers-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.stickers-container::-webkit-scrollbar-thumb {
+  background: #FF9800;
+  border-radius: 10px;
+}
+
+.stickers-container::-webkit-scrollbar-thumb:hover {
+  background: #F57C00;
+}
