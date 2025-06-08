@@ -349,7 +349,7 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
       style={{
         backgroundColor: '#FFFFFF',
         borderRadius: '10px',
-        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), inset 0 0 5px rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 18px 36px rgba(75, 0, 130, 0.3), 0 9px 18px rgba(75, 0, 130, 0.2), inset 0 0 10px rgba(75, 0, 130, 0.1)',
         border: '1px solid #e0e0e0'
       }}
     >
