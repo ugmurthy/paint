@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Kids Painting App</h1>
+        <h1>DoodleDazzle</h1>
         <div className="header-buttons">
           <button className="action-button new-button" onClick={handleNewDrawing} title="New Drawing">
             <span style={{ fontSize: '24px' }}>🆕</span>

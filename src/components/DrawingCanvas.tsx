@@ -34,6 +34,8 @@ interface ShapeElement {
   radius?: number;
   color: string;
   points?: number[];
+  strokeWidth?: number;
+  preview?: boolean;
 }
 
 const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas }) => {
@@ -161,14 +163,41 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
     
     if (['rectangle', 'circle', 'triangle'].includes(tool)) {
       // For shape tools, update preview
-      const shapeProps = {
-        tool,
-        x: startPoint.x,
-        y: startPoint.y,
-        width: pos.x - startPoint.x,
-        height: pos.y - startPoint.y,
-        color
-      };
+      let shapeProps: ShapeElement;
+      
+      if (tool === 'rectangle') {
+        shapeProps = {
+          tool,
+          x: startPoint.x,
+          y: startPoint.y,
+          width: pos.x - startPoint.x,
+          height: pos.y - startPoint.y,
+          color,
+          strokeWidth: 3
+        };
+      } else if (tool === 'circle' || tool === 'triangle') {
+        // For both circle and triangle, calculate radius based on distance
+        const radius = Math.sqrt(
+          Math.pow(pos.x - startPoint.x, 2) + Math.pow(pos.y - startPoint.y, 2)
+        );
+        shapeProps = {
+          tool,
+          x: startPoint.x,
+          y: startPoint.y,
+          radius,
+          color,
+          strokeWidth: 3
+        };
+      } else {
+        // This should never happen, but TypeScript needs it
+        shapeProps = {
+          tool,
+          x: startPoint.x,
+          y: startPoint.y,
+          color,
+          strokeWidth: 3
+        };
+      }
       
       // Use web worker to update shape preview
       drawingWorkerRef.current?.postMessage({
@@ -180,8 +209,8 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
     
     if (tool === 'spray') {
       // For spray tool, add multiple points with randomness
-      const numPoints = 20;
-      const radius = getStrokeWidth() * 5;
+      const numPoints = 40; // Doubled the number of points for better density
+      const radius = getStrokeWidth() * 10; // Doubled the radius to make area 4x larger
       const points: number[] = [];
       
       for (let i = 0; i < numPoints; i++) {
@@ -239,7 +268,14 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
       
       if (!pos) return;
       
-      let newShape: ShapeElement;
+      // Initialize with default values
+      let newShape: ShapeElement = {
+        tool,
+        x: startPoint.x,
+        y: startPoint.y,
+        color,
+        strokeWidth: 3
+      };
       
       if (tool === 'rectangle') {
         newShape = {
@@ -250,7 +286,8 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
           height: pos.y - startPoint.y,
           color
         };
-      } else if (tool === 'circle') {
+      } else if (tool === 'circle' || tool === 'triangle') {
+        // For both circle and triangle, calculate radius based on distance
         const radius = Math.sqrt(
           Math.pow(pos.x - startPoint.x, 2) + Math.pow(pos.y - startPoint.y, 2)
         );
@@ -259,16 +296,8 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
           x: startPoint.x,
           y: startPoint.y,
           radius,
-          color
-        };
-      } else { // triangle
-        newShape = {
-          tool,
-          x: startPoint.x,
-          y: startPoint.y,
-          width: pos.x - startPoint.x,
-          height: pos.y - startPoint.y,
-          color
+          color,
+          strokeWidth: 3
         };
       }
       
@@ -317,10 +346,11 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
       }}
       onTouchEnd={handleMouseUp}
       ref={stageRef}
-      style={{ 
+      style={{
         backgroundColor: '#FFFFFF',
         borderRadius: '10px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), inset 0 0 5px rgba(0, 0, 0, 0.05)',
+        border: '1px solid #e0e0e0'
       }}
     >
       <Layer>
@@ -345,19 +375,23 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ tool, color, clearCanvas 
                 x={shape.x}
                 y={shape.y}
                 radius={shape.radius || 0}
-                fill={shape.color}
+                stroke={shape.color}
+                strokeWidth={shape.strokeWidth || 3}
+                fill="transparent"
               />
             );
           } else if (shape.tool === 'triangle') {
             return (
               <RegularPolygon
                 key={i}
-                x={shape.x + (shape.width || 0) / 2}
-                y={shape.y + (shape.height || 0) / 2}
+                x={shape.x}
+                y={shape.y}
                 sides={3}
-                radius={Math.max((shape.width || 0), (shape.height || 0)) / 2}
-                fill={shape.color}
-                rotation={180}
+                radius={shape.radius || 0}
+                stroke={shape.color}
+                strokeWidth={shape.strokeWidth || 3}
+                fill="transparent"
+                rotation={0}
               />
             );
           }
